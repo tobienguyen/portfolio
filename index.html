@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Tobey Nguyen, Computer Science student at the University at Buffalo. Full-stack developer, Technical Director at UB SASE.">
+<title>Tobey Nguyen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: monochrome HUD portfolio. Clipped-corner panels on a black
+   perspective grid; white type, one soft-pink accent used sparingly. */
+:root {
+  --bg: #070707;
+  --bg-2: #111111;
+  --panel: rgba(16, 16, 16, 0.86);
+  --line: #2e2e2e;
+  --fg: #f2f2f2;
+  --muted: #9b9b9b;
+  --cyan: #ffffff;
+  --magenta: #ffdcea;
+  --amber: #cfcfcf;
+  --display: "Chakra Petch", "Rajdhani", "Segoe UI", system-ui, sans-serif;
+  --body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --cut: 14px;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { background: var(--bg); }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 16px/1.6 var(--body);
+  overflow-x: hidden;
+}
+#grid {
+  position: fixed; inset: 0; width: 100%; height: 100%;
+  z-index: 0; pointer-events: none;
+}
+.scan {
+  position: fixed; inset: 0; z-index: 1; pointer-events: none;
+  background: repeating-linear-gradient(to bottom, rgba(255,255,255,0.025) 0 1px, transparent 1px 3px);
+}
+.wrap {
+  position: relative; z-index: 2;
+  max-width: 1080px; margin: 0 auto;
+  padding-inline: clamp(16px, 4vw, 40px);
+  padding-block: 20px 64px;
+  display: flex; flex-direction: column; gap: 28px;
+}
+a { color: var(--cyan); text-decoration: none; }
+a:hover { text-decoration: underline; }
+:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+
+/* ---------- top bar ---------- */
+.bar {
+  display: flex; flex-wrap: wrap; gap: 8px 20px; justify-content: space-between;
+  font: 500 12px/1.4 var(--mono); letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 1px solid var(--line); padding-bottom: 10px;
+}
+.bar nav { display: flex; flex-wrap: wrap; gap: 6px 18px; }
+.bar nav a { color: var(--muted); }
+.bar nav a:hover { color: var(--cyan); text-decoration: none; }
+.live { color: var(--amber); }
+.live::before {
+  content: ""; display: inline-block; width: 7px; height: 7px; margin-right: 8px;
+  background: var(--amber); border-radius: 50%; box-shadow: 0 0 8px var(--amber);
+  animation: blink 1.6s steps(2) infinite;
+}
+@keyframes blink { 50% { opacity: 0.25; } }
+
+/* ---------- hero ---------- */
+.hero {
+  display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: 28px; align-items: stretch; padding-top: 12px;
+}
+.eyebrow {
+  font: 500 12px/1 var(--mono); letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--magenta); margin: 0 0 14px;
+}
+h1 {
+  font: 700 clamp(3rem, 10vw, 6.4rem)/0.9 var(--display);
+  margin: 0; letter-spacing: -0.01em; text-transform: uppercase;
+  position: relative; text-wrap: balance;
+}
+.glitch { position: relative; display: inline-block; }
+.glitch::before, .glitch::after {
+  content: attr(data-text); position: absolute; left: 0; top: 0; width: 100%;
+  overflow: hidden; pointer-events: none;
+}
+.glitch::before { color: #3ee8ff; transform: translate(-3px, 0); mix-blend-mode: screen; opacity: 0.8; animation: g1 4s infinite steps(1); }
+.glitch::after  { color: var(--magenta); transform: translate(3px, 0); mix-blend-mode: screen; opacity: 0.8; animation: g2 4s infinite steps(1); }
+@keyframes g1 {
+  0%, 88%, 100% { clip-path: inset(0 0 100% 0); }
+  90% { clip-path: inset(12% 0 60% 0); transform: translate(-6px, 0); }
+  93% { clip-path: inset(55% 0 20% 0); transform: translate(4px, 0); }
+  96% { clip-path: inset(30% 0 45% 0); transform: translate(-3px, 0); }
+}
+@keyframes g2 {
+  0%, 88%, 100% { clip-path: inset(0 0 100% 0); }
+  91% { clip-path: inset(65% 0 10% 0); transform: translate(6px, 0); }
+  94% { clip-path: inset(8% 0 75% 0); transform: translate(-4px, 0); }
+  97% { clip-path: inset(40% 0 35% 0); transform: translate(3px, 0); }
+}
+.tagline {
+  font: 500 clamp(1.05rem, 2.2vw, 1.3rem)/1.45 var(--body);
+  color: var(--fg); max-width: 34ch; margin: 22px 0 0;
+}
+.tagline em { font-style: normal; color: var(--cyan); }
+.term {
+  margin-top: 22px; font: 400 14px/1.5 var(--mono); color: var(--muted);
+  min-height: 1.5em;
+}
+.term b { color: var(--magenta); font-weight: 500; }
+.caret { display: inline-block; width: 8px; height: 1em; vertical-align: -2px; background: var(--cyan); animation: blink 1s steps(2) infinite; }
+.cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+.btn {
+  font: 600 14px/1 var(--display); letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 13px 20px; border: 1px solid var(--cyan); color: var(--cyan);
+  background: rgba(255, 255, 255, 0.04); cursor: pointer;
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  transition: background .2s, color .2s;
+}
+.btn:hover { background: var(--cyan); color: var(--bg); text-decoration: none; }
+.btn.pink { border-color: var(--magenta); color: var(--magenta); background: rgba(255, 220, 234, 0.06); }
+.btn.pink:hover { background: var(--magenta); color: var(--bg); }
+
+/* spec card */
+.spec {
+  position: relative; background: var(--panel);
+  border: 1px solid var(--line); padding: 22px 22px 18px;
+  clip-path: polygon(var(--cut) 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%, 0 var(--cut));
+  backdrop-filter: blur(4px);
+  display: flex; flex-direction: column; gap: 14px;
+}
+.spec h2 {
+  font: 600 13px/1 var(--mono); letter-spacing: 0.18em; color: var(--amber);
+  margin: 0; text-transform: uppercase; display: flex; justify-content: space-between;
+}
+.spec dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 8px 16px; font-size: 14px; }
+.spec dt { font: 500 11px/1.9 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.spec dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+.meter { display: flex; flex-direction: column; gap: 6px; }
+.meter-row { display: grid; grid-template-columns: 88px 1fr; gap: 10px; align-items: center; font: 500 11px/1 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.meter-bar { height: 6px; background: rgba(255,255,255,0.06); position: relative; overflow: hidden; }
+.meter-bar i { position: absolute; inset: 0 auto 0 0; background: linear-gradient(90deg, var(--magenta), var(--cyan)); box-shadow: none; }
+.corner { position: absolute; width: 10px; height: 10px; border-color: var(--cyan); border-style: solid; }
+.corner.tl { top: 6px; left: 20px; border-width: 1px 0 0 1px; }
+.corner.br { bottom: 6px; right: 20px; border-width: 0 1px 1px 0; }
+
+/* ascii volleyball */
+.side { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.ascii-box {
+  margin: 0; border: 1px solid var(--line); background: rgba(0,0,0,0.55);
+  padding: 14px 12px 10px; display: flex; flex-direction: column; align-items: center; gap: 8px;
+  clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, var(--cut) 100%, 0 calc(100% - var(--cut)));
+  overflow: hidden;
+}
+#ascii {
+  margin: 0; font: 400 clamp(8px, 2.1vw, 10.5px)/1 var(--mono); letter-spacing: 0.02em;
+  color: var(--fg); white-space: pre; max-width: 100%; overflow: hidden;
+}
+#ascii b { color: var(--magenta); font-weight: 400; }
+.ascii-box figcaption {
+  width: 100%; display: flex; justify-content: space-between; gap: 10px;
+  font: 500 10px/1 var(--mono); letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted);
+  border-top: 1px dashed var(--line); padding-top: 8px;
+}
+.ascii-box figcaption span:first-child { color: var(--magenta); }
+
+/* ---------- sections ---------- */
+section { display: flex; flex-direction: column; gap: 18px; scroll-margin-top: 24px; }
+.sec-head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+.sec-head h2 {
+  font: 700 clamp(1.6rem, 4vw, 2.3rem)/1 var(--display);
+  text-transform: uppercase; margin: 0; letter-spacing: 0.02em;
+}
+.sec-head .code { font: 500 12px/1 var(--mono); letter-spacing: 0.16em; color: var(--magenta); text-transform: uppercase; }
+.sec-head::after { content: ""; flex: 1 1 60px; height: 1px; background: linear-gradient(90deg, var(--line), transparent); align-self: center; }
+
+.panel {
+  background: var(--panel); border: 1px solid var(--line);
+  padding: 22px clamp(18px, 3vw, 28px);
+  clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, var(--cut) 100%, 0 calc(100% - var(--cut)));
+  min-width: 0;
+  transition: border-color .25s, transform .25s;
+}
+.panel:hover { border-color: var(--cyan); }
+
+/* loadout */
+.loadout { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.slot h3 { font: 600 12px/1 var(--mono); letter-spacing: 0.18em; text-transform: uppercase; color: var(--cyan); margin: 0 0 14px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0; padding: 0; }
+.chips li {
+  font: 500 13px/1 var(--mono); padding: 8px 11px;
+  border: 1px solid var(--line); background: rgba(0, 0, 0, 0.6); color: var(--fg);
+}
+.chips li.hot { border-color: var(--magenta); color: var(--magenta); }
+.note { margin: 12px 0 0; font-size: 13px; color: var(--muted); }
+.note b { color: var(--amber); font-weight: 500; }
+
+/* missions */
+.stack { display: flex; flex-direction: column; gap: 16px; }
+.entry-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 18px; align-items: baseline; }
+.entry h3 { font: 700 clamp(1.15rem, 2.6vw, 1.45rem)/1.2 var(--display); margin: 0; text-transform: uppercase; letter-spacing: 0.02em; }
+.org { font: 500 13px/1 var(--mono); color: var(--cyan); letter-spacing: 0.08em; margin-top: 6px; display: block; }
+.date { font: 500 12px/1 var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--amber); white-space: nowrap; }
+.date.active::before { content: "● "; }
+.entry ul { margin: 16px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 9px; max-width: 72ch; }
+.entry li { position: relative; padding-left: 22px; color: var(--fg); }
+.entry li::before { content: "▸"; position: absolute; left: 0; color: var(--magenta); }
+.stat-strip { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 16px; padding-top: 14px; border-top: 1px dashed var(--line); font: 500 12px/1.3 var(--mono); color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; }
+.stat-strip strong { color: var(--fg); font: 700 18px/1 var(--display); margin-right: 6px; letter-spacing: 0; }
+
+/* builds */
+.builds { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+.feature { border-color: var(--magenta); }
+.feature:hover { border-color: var(--magenta); }
+.badge { display: inline-block; font: 600 11px/1 var(--mono); letter-spacing: 0.16em; padding: 5px 8px; background: var(--magenta); color: var(--bg); text-transform: uppercase; margin-bottom: 14px; }
+.tech { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; list-style: none; padding: 0; }
+.tech li { font: 500 11px/1 var(--mono); letter-spacing: 0.08em; padding: 6px 8px; border: 1px solid var(--line); color: var(--cyan); text-transform: uppercase; }
+
+/* commendation + off duty */
+.duo { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+.medal { display: flex; gap: 18px; align-items: flex-start; }
+.medal-icon {
+  flex: 0 0 auto; width: 58px; height: 58px; display: grid; place-items: center;
+  border: 1px solid var(--amber); color: var(--amber);
+  font: 700 20px/1 var(--display);
+  clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+  background: rgba(255, 255, 255, 0.05);
+}
+.medal h3, .off h3 { font: 700 1.2rem/1.2 var(--display); margin: 0 0 8px; text-transform: uppercase; }
+.medal p, .off p { margin: 0; color: var(--muted); }
+.medal p strong { color: var(--fg); font-weight: 500; }
+.off ul { list-style: none; margin: 12px 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.off li { font: 500 14px/1.3 var(--body); padding: 10px 12px; border: 1px solid var(--line); background: rgba(0,0,0,0.6); }
+.off li span { display: block; font: 500 10px/1 var(--mono); letter-spacing: 0.16em; color: var(--magenta); margin-bottom: 6px; text-transform: uppercase; }
+
+/* contact */
+.comms { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.comm {
+  display: flex; flex-direction: column; gap: 6px; padding: 16px 18px;
+  border: 1px solid var(--line); background: var(--panel); min-width: 0;
+}
+.comm .lbl { font: 500 11px/1 var(--mono); letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+.comm .val { font: 500 15px/1.4 var(--mono); color: var(--fg); overflow-wrap: anywhere; user-select: all; }
+.comm .row { display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+.copy {
+  font: 600 11px/1 var(--mono); letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 7px 10px; background: transparent; color: var(--cyan);
+  border: 1px solid var(--cyan); cursor: pointer;
+}
+.copy:hover { background: var(--cyan); color: var(--bg); }
+.copy.done { border-color: var(--amber); color: var(--amber); }
+footer { font: 400 12px/1.6 var(--mono); color: var(--muted); letter-spacing: 0.08em; text-align: left; border-top: 1px solid var(--line); padding-top: 14px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; }
+
+/* reveal: visible at rest, subtle lift */
+.rise { animation: rise .7s ease-out both; }
+@keyframes rise { from { transform: translateY(10px); } to { transform: none; } }
+
+@media (max-width: 820px) {
+  .hero, .builds, .duo { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 560px) {
+  .loadout, .comms { grid-template-columns: minmax(0, 1fr); }
+  .bar nav { display: none; }
+  .glitch::before, .glitch::after { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="grid" aria-hidden="true"></canvas>
+<div class="scan" aria-hidden="true"></div>
+
+<div class="wrap">
+  <header class="bar">
+    <span class="live">Tobey Nguyen · Software Engineer</span>
+    <nav aria-label="Sections">
+      <a href="#loadout">Skills</a>
+      <a href="#missions">Experience</a>
+      <a href="#builds">Projects</a>
+      <a href="#comms">Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero rise" aria-label="Introduction">
+    <div>
+      <p class="eyebrow">// Portfolio · CS @ UB</p>
+      <h1><span class="glitch" data-text="Tobey">Tobey</span><br><span class="glitch" data-text="Nguyen">Nguyen</span></h1>
+      <p class="tagline">Computer Science at the University at Buffalo. I build <em>full-stack apps</em>, lead technical teams, and bring people together through code and volleyball.</p>
+      <div class="term" aria-live="off"><b>tobey@ub</b>:~$ <span id="typed">whoami</span><span class="caret"></span></div>
+      <div class="cta">
+        <a class="btn" href="https://www.linkedin.com/in/tobey-nguyen-94a1132ab/" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn pink" href="https://github.com/tobienguyen" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn" href="#comms">Contact me</a>
+      </div>
+    </div>
+
+    <div class="side">
+    <figure class="ascii-box" aria-label="Spinning ASCII volleyball">
+      <pre id="ascii" aria-hidden="true"></pre>
+      <figcaption><span>volleyball.exe</span><span id="rpm">render: ascii</span></figcaption>
+    </figure>
+    <aside class="spec" aria-label="Profile summary">
+      <span class="corner tl"></span><span class="corner br"></span>
+      <h2><span>Profile</span><span>2026</span></h2>
+      <dl>
+        <dt>Name</dt><dd>Tobey Nguyen</dd>
+        <dt>School</dt><dd>University at Buffalo</dd>
+        <dt>Degree</dt><dd>B.S. Computer Science</dd>
+        <dt>Graduating</dt><dd>Fall 2028</dd>
+        <dt>Role</dt><dd>Technical Director, UB SASE</dd>
+        <dt>Team</dt><dd>15 students mentored</dd>
+      </dl>
+    </aside>
+    </div>
+  </section>
+
+  <section id="loadout" aria-labelledby="h-loadout">
+    <div class="sec-head"><span class="code">[01]</span><h2 id="h-loadout">Skills</h2></div>
+    <div class="loadout">
+      <div class="panel slot">
+        <h3>Languages</h3>
+        <ul class="chips">
+          <li class="hot">Python</li><li class="hot">JavaScript</li><li class="hot">TypeScript</li>
+          <li>Java</li><li>C++</li><li>C</li><li>SQL</li><li>HTML</li>
+        </ul>
+      </div>
+      <div class="panel slot">
+        <h3>Frameworks &amp; libraries</h3>
+        <ul class="chips">
+          <li class="hot">React</li><li class="hot">React Native</li><li>Node.js</li><li>FastAPI</li>
+        </ul>
+      </div>
+      <div class="panel slot">
+        <h3>Cloud &amp; DevOps</h3>
+        <ul class="chips">
+          <li class="hot">AWS</li><li>Docker</li><li>Kubernetes</li><li>Git</li><li>Firebase</li><li>Linux</li>
+        </ul>
+        <p class="note"><b>AWS Jam Challenge</b> competitor with Amazon</p>
+      </div>
+      <div class="panel slot">
+        <h3>Tools</h3>
+        <ul class="chips">
+          <li>VS Code</li><li class="hot">Figma</li><li>GameMaker Studio</li><li>IntelliJ</li><li>REST APIs</li><li>Twilio</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="missions" aria-labelledby="h-missions">
+    <div class="sec-head"><span class="code">[02]</span><h2 id="h-missions">Experience</h2></div>
+    <div class="stack">
+      <article class="panel entry">
+        <div class="entry-top">
+          <div>
+            <h3>Technical Director &amp; Software Engineer Intern</h3>
+            <span class="org">SASE · University at Buffalo</span>
+          </div>
+          <span class="date active">Mar 2026 – Present</span>
+        </div>
+        <ul>
+          <li>Manage and mentor a team of 15 through hands-on technical projects and workshops, including Linux systems and full-stack development.</li>
+          <li>Lead end-to-end development and deployment of UB SASE's official website with React and CSS.</li>
+          <li>Host large technical events of 100+ people that connect the community and spark members' professional interests.</li>
+        </ul>
+        <div class="stat-strip">
+          <span><strong>15</strong>engineers led</span>
+          <span><strong>100+</strong>per event</span>
+          <span><strong>1</strong>official site shipped</span>
+        </div>
+      </article>
+      <article class="panel entry">
+        <div class="entry-top">
+          <div>
+            <h3>Software Engineer Fellow &amp; Mentor</h3>
+            <span class="org">Forge Fellowship</span>
+          </div>
+          <span class="date active">Jan 2026 – Present</span>
+        </div>
+        <ul>
+          <li>Selected for a competitive CS fellowship focused on rapid product development and career readiness.</li>
+          <li>Solo-developed an MVP web application under Forge mentorship.</li>
+          <li>Mentor incoming fellowship cohorts to strengthen their engineering practices.</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section id="builds" aria-labelledby="h-builds">
+    <div class="sec-head"><span class="code">[03]</span><h2 id="h-builds">Projects</h2></div>
+    <div class="builds">
+      <article class="panel entry feature">
+        <span class="badge">Featured · Feb 2026 – Present</span>
+        <h3>Go! — pickup volleyball app</h3>
+        <span class="org">Mobile app · MVP</span>
+        <ul>
+          <li>A fully responsive mobile MVP that gets volleyball players together for pickup games and builds a tighter local community.</li>
+          <li>Firebase and Twilio power real-time data streaming, SMS flows, and secure authentication.</li>
+          <li>Interactive geospatial map connects nearby players based on real-time location.</li>
+          <li>Minimal, accessible interface prototyped in Figma before production launch.</li>
+        </ul>
+        <ul class="tech"><li>React Native</li><li>Node.js</li><li>Firebase</li><li>Twilio</li><li>Maps API</li><li>Figma</li></ul>
+      </article>
+      <article class="panel entry">
+        <span class="badge" style="background:var(--fg)">Web · 2024 &amp; 2026</span>
+        <h3>SASE website &amp; philosophy blog</h3>
+        <span class="org">Front-end · UI/UX</span>
+        <ul>
+          <li>Designed scalable front-end and UI/UX for high-traffic event announcements serving 100+ active members.</li>
+          <li>Streamlined deployment and optimized assets for faster loads and better mobile accessibility.</li>
+          <li>Built a personal blog for writing about philosophy books.</li>
+        </ul>
+        <ul class="tech"><li>React</li><li>JavaScript</li><li>HTML</li><li>CSS</li></ul>
+      </article>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-more">
+    <div class="sec-head"><span class="code">[04]</span><h2 id="h-more">Awards &amp; interests</h2></div>
+    <div class="duo">
+      <div class="panel medal">
+        <div class="medal-icon" aria-hidden="true">★</div>
+        <div>
+          <h3>Sportsmanship Award</h3>
+          <p><strong>NJCAA Men's Volleyball, 2025 season.</strong> Named to the All-Sportsmanship Team, and finished 2nd in the lower NYC region with my team.</p>
+        </div>
+      </div>
+      <div class="panel off">
+        <h3>Interests</h3>
+        <ul>
+          <li><span>Create</span>Game design &amp; 2D animation</li>
+          <li><span>Build</span>Gundam model kits</li>
+          <li><span>Play</span>Volleyball</li>
+          <li><span>Read</span>Philosophy &amp; sci-fi</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="comms" aria-labelledby="h-comms">
+    <div class="sec-head"><span class="code">[05]</span><h2 id="h-comms">Contact</h2></div>
+    <div class="comms">
+      <div class="comm">
+        <span class="lbl">Email</span>
+        <div class="row"><span class="val" id="v-email">tobey.ahn@gmail.com</span><button class="copy" id="c-email" data-target="v-email" type="button">Copy</button></div>
+      </div>
+      <div class="comm">
+        <span class="lbl">Phone</span>
+        <div class="row"><span class="val" id="v-phone">+1 (917) 349-8479</span><button class="copy" id="c-phone" data-target="v-phone" type="button">Copy</button></div>
+      </div>
+      <div class="comm">
+        <span class="lbl">LinkedIn</span>
+        <div class="row"><a class="val" href="https://www.linkedin.com/in/tobey-nguyen-94a1132ab/" target="_blank" rel="noopener">in/tobey-nguyen</a></div>
+      </div>
+      <div class="comm">
+        <span class="lbl">GitHub</span>
+        <div class="row"><a class="val" href="https://github.com/tobienguyen" target="_blank" rel="noopener">github.com/tobienguyen</a></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 Tobey Nguyen</span>
+    <span>New York, NY</span>
+  </footer>
+</div>
+
+<script>
+(function () {
+  // Typing line
+  var lines = ["whoami", "cat focus.txt  →  full-stack · mobile · community", "status  →  open to internships"];
+  var el = document.getElementById("typed");
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduce) { el.textContent = lines[2]; }
+  else {
+    var li = 0, ci = lines[0].length, del = false;
+    function tick() {
+      var t = lines[li];
+      if (!del) {
+        ci++;
+        el.textContent = t.slice(0, ci);
+        if (ci >= t.length) { del = true; return setTimeout(tick, 2200); }
+        return setTimeout(tick, 45);
+      }
+      ci--;
+      el.textContent = t.slice(0, Math.max(ci, 0));
+      if (ci <= 0) { del = false; li = (li + 1) % lines.length; ci = 0; }
+      setTimeout(tick, 22);
+    }
+    setTimeout(function () { del = true; tick(); }, 1600);
+  }
+
+  // Copy buttons
+  document.querySelectorAll(".copy").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var v = document.getElementById(b.dataset.target);
+      var text = v.textContent;
+      function ok() { b.textContent = "Copied"; b.classList.add("done"); setTimeout(function () { b.textContent = "Copy"; b.classList.remove("done"); }, 1600); }
+      function fallback() {
+        var r = document.createRange(); r.selectNodeContents(v);
+        var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+        b.textContent = "Selected";
+        setTimeout(function () { b.textContent = "Copy"; }, 1600);
+      }
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(ok, fallback);
+        else fallback();
+      } catch (e) { fallback(); }
+    });
+  });
+
+  // ASCII volleyball: shaded sphere with three-strip panel seams
+  var pre = document.getElementById("ascii");
+  var COLS = 46, ROWS = 23, RAMP = " .:-=+*%#@";
+  var ang = 0.6;
+  function ball(a) {
+    var out = "";
+    var ca = Math.cos(a), sa = Math.sin(a), tilt = 0.45, ct = Math.cos(tilt), st = Math.sin(tilt);
+    var L = [-0.5, 0.55, 0.67];
+    for (var r = 0; r < ROWS; r++) {
+      var line = "";
+      for (var q = 0; q < COLS; q++) {
+        var x = (q - COLS / 2 + 0.5) / (COLS / 2);
+        var y = -(r - ROWS / 2 + 0.5) / (ROWS / 2);
+        var d = x * x + y * y;
+        if (d > 1) { line += " "; continue; }
+        var z = Math.sqrt(1 - d);
+        var lum = Math.max(0, x * L[0] + y * L[1] + z * L[2]);
+        // rotate around y by a, then tilt around x
+        var u = x * ca + z * sa, w0 = -x * sa + z * ca;
+        var v = y * ct - w0 * st, w = y * st + w0 * ct;
+        var au = Math.abs(u), av = Math.abs(v), aw = Math.abs(w), seam = false, t = 0.055;
+        if (au >= av && au >= aw) seam = Math.abs(Math.abs(w) - 0.34) < t;
+        else if (av >= au && av >= aw) seam = Math.abs(Math.abs(u) - 0.34) < t;
+        else seam = Math.abs(Math.abs(v) - 0.34) < t;
+        var edge = Math.abs(au - av) < t && au > aw || Math.abs(av - aw) < t && av > au || Math.abs(aw - au) < t && aw > av;
+        var ch = RAMP[Math.min(RAMP.length - 1, 1 + Math.floor(lum * (RAMP.length - 1)))];
+        if (seam || edge) line += "<b>" + (lum > 0.35 ? "·" : " ") + "</b>";
+        else line += ch;
+      }
+      out += line + "\n";
+    }
+    return out;
+  }
+  pre.innerHTML = ball(ang);
+  if (!reduce) {
+    var last = 0;
+    (function spin(ts) {
+      if (ts - last > 55) { ang += 0.045; pre.innerHTML = ball(ang); last = ts; }
+      requestAnimationFrame(spin);
+    })(0);
+  }
+
+  // Perspective neon grid background
+  var c = document.getElementById("grid"), ctx = c.getContext("2d");
+  var w, h, dpr, off = 0;
+  function size() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = c.clientWidth; h = c.clientHeight;
+    c.width = w * dpr; c.height = h * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+
+    var horizon = h * 0.58, cx = w / 2;
+    ctx.lineWidth = 1;
+    // vertical rays
+    for (var i = -24; i <= 24; i++) {
+      var xb = cx + i * (w / 12);
+      ctx.strokeStyle = "rgba(255,255,255,0.07)";
+      ctx.beginPath(); ctx.moveTo(cx + i * 6, horizon); ctx.lineTo(xb, h); ctx.stroke();
+    }
+    // horizontal lines receding
+    for (var k = 0; k < 18; k++) {
+      var p = ((k + off) % 18) / 18;
+      var y = horizon + Math.pow(p, 2.2) * (h - horizon);
+      ctx.strokeStyle = "rgba(255,255,255," + (0.03 + p * 0.12).toFixed(3) + ")";
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+    }
+    ctx.strokeStyle = "rgba(255,255,255,0.25)";
+    ctx.beginPath(); ctx.moveTo(0, horizon); ctx.lineTo(w, horizon); ctx.stroke();
+  }
+  function loop() { off += 0.012; draw(); requestAnimationFrame(loop); }
+  size(); draw();
+  window.addEventListener("resize", function () { size(); draw(); });
+  if (!reduce) requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
