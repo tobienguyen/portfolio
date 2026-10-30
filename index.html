@@ -21,6 +21,7 @@
   --cyan: #ffffff;
   --magenta: #ffdcea;
   --amber: #cfcfcf;
+  --red: #ff3d57;
   --display: "Chakra Petch", "Rajdhani", "Segoe UI", system-ui, sans-serif;
   --body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
@@ -156,21 +157,68 @@ h1 {
 .side { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
 .ascii-box {
   margin: 0; border: 1px solid var(--line); background: rgba(0,0,0,0.55);
-  padding: 14px 12px 10px; display: flex; flex-direction: column; align-items: center; gap: 8px;
+  padding: 16px 12px; display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 2.5cqi;
+  container-type: inline-size;
   clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, var(--cut) 100%, 0 calc(100% - var(--cut)));
   overflow: hidden;
 }
-#ascii {
-  margin: 0; font: 400 clamp(8px, 2.1vw, 10.5px)/1 var(--mono); letter-spacing: 0.02em;
+.ascii-art {
+  margin: 0; font: 400 clamp(5.5px, 2.2cqi, 10.5px)/1 var(--mono); letter-spacing: 0.02em;
   color: var(--fg); white-space: pre; max-width: 100%; overflow: hidden;
 }
 #ascii b { color: var(--magenta); font-weight: 400; }
-.ascii-box figcaption {
+#guitar i { font-style: normal; }
+#guitar .r { color: var(--red); }
+#guitar .p { color: var(--magenta); }
+#guitar .w { color: var(--fg); }
+#guitar .s { color: var(--fg); display: inline-block; animation: strum 1.8s ease-out infinite; }
+.guitar-wrap {
+  flex: 0 0 auto; display: grid; place-items: center;
+  font-size: clamp(5.5px, 2.2cqi, 10.5px);
+  width: 19em; height: 22em;
+}
+#guitar {
+  transform: rotate(32deg) scale(0.72); transform-origin: 50% 50%;
+  animation: hover 2.6s ease-in-out infinite alternate, glow 1.8s ease-out infinite;
+}
+@keyframes hover {
+  0%   { transform: rotate(32deg) scale(0.72) translateY(0); }
+  100% { transform: rotate(32deg) scale(0.72) translateY(-0.9em); }
+}
+@keyframes glow {
+  0%, 40%, 100% { filter: none; }
+  6% { filter: drop-shadow(0 0 0.5em rgba(255, 61, 87, 0.75)); }
+}
+.guitar-wrap { position: relative; }
+.fx-note {
+  position: absolute; left: 24%; top: 60%;
+  font: 400 2em/1 var(--mono); color: var(--magenta);
+  opacity: 0; pointer-events: none;
+  animation: note-rise 3.6s ease-out infinite;
+}
+.fx-note.n2 { left: 34%; color: var(--red); animation-delay: 1.2s; }
+.fx-note.n3 { left: 14%; animation-delay: 2.4s; }
+@keyframes note-rise {
+  0%   { opacity: 0; transform: translate(0, 0) rotate(-10deg); }
+  15%  { opacity: 1; }
+  100% { opacity: 0; transform: translate(-1.2em, -9em) rotate(12deg); }
+}
+@keyframes strum {
+  0%, 35%, 100% { transform: translateX(0); }
+  4%  { transform: translateX(0.12em); }
+  8%  { transform: translateX(-0.12em); }
+  12% { transform: translateX(0.09em); }
+  16% { transform: translateX(-0.07em); }
+  22% { transform: translateX(0.04em); }
+  28% { transform: translateX(-0.02em); }
+}
+#guitar .g { color: var(--muted); }
+/*unused*/ .ascii-box-cap {
   width: 100%; display: flex; justify-content: space-between; gap: 10px;
   font: 500 10px/1 var(--mono); letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted);
   border-top: 1px dashed var(--line); padding-top: 8px;
 }
-.ascii-box figcaption span:first-child { color: var(--magenta); }
+/*unused*/ .ascii-box-cap span:first-child { color: var(--magenta); }
 
 /* ---------- sections ---------- */
 section { display: flex; flex-direction: column; gap: 18px; scroll-margin-top: 24px; }
@@ -238,6 +286,7 @@ section { display: flex; flex-direction: column; gap: 18px; scroll-margin-top: 2
 .medal p, .off p { margin: 0; color: var(--muted); }
 .medal p strong { color: var(--fg); font-weight: 500; }
 .off ul { list-style: none; margin: 12px 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.off li:last-child:nth-child(odd) { grid-column: 1 / -1; }
 .off li { font: 500 14px/1.3 var(--body); padding: 10px 12px; border: 1px solid var(--line); background: rgba(0,0,0,0.6); }
 .off li span { display: block; font: 500 10px/1 var(--mono); letter-spacing: 0.16em; color: var(--magenta); margin-bottom: 6px; text-transform: uppercase; }
 
@@ -306,9 +355,40 @@ footer { font: 400 12px/1.6 var(--mono); color: var(--muted); letter-spacing: 0.
     </div>
 
     <div class="side">
-    <figure class="ascii-box" aria-label="Spinning ASCII volleyball">
-      <pre id="ascii" aria-hidden="true"></pre>
-      <figcaption><span>volleyball.exe</span><span id="rpm">render: ascii</span></figcaption>
+    <figure class="ascii-box" aria-label="ASCII art of a spinning volleyball and an electric guitar">
+      <pre id="ascii" class="ascii-art" aria-hidden="true"></pre>
+      <div class="guitar-wrap"><pre id="guitar" class="ascii-art" aria-hidden="true">       <i class="p">,--.</i>
+     <i class="w">o</i><i class="p">-|</i><i class="r">##</i><i class="p">|</i>
+     <i class="w">o</i><i class="p">-|</i><i class="r">##</i><i class="p">|</i>
+     <i class="w">o</i><i class="p">-|</i><i class="r">##</i><i class="p">|</i>
+     <i class="w">o</i><i class="p">-|</i><i class="r">##</i><i class="p">|</i>
+     <i class="w">o</i><i class="p">-|</i><i class="r">##</i><i class="p">|</i>
+      <i class="w">o</i><i class="p">-\</i><i class="r">#</i><i class="p">|</i>
+        <i class="s">|||</i>
+        <i class="p">+++</i>
+        <i class="s">|||</i>
+        <i class="p">+++</i>
+        <i class="s">|||</i>
+        <i class="p">+++</i>
+        <i class="s">|||</i>
+        <i class="p">+++</i>
+        <i class="s">|||</i>
+        <i class="p">+++</i>
+  <i class="p">,-.</i>   <i class="s">|||</i>   <i class="p">,-.</i>
+ <i class="p">/</i><i class="r">%%%</i><i class="p">\</i>  <i class="p">+++</i>  <i class="p">/</i><i class="r">%%%</i><i class="p">|</i>
+ <i class="p">|</i><i class="r">%%%%</i><i class="p">\</i> <i class="s">|||</i> <i class="p">/</i><i class="r">%%%%</i><i class="p">|</i>
+ <i class="p">|</i><i class="r">%%%%%</i><i class="p">\</i><i class="s">|||</i><i class="p">/</i><i class="r">%%%%%</i><i class="p">/</i>
+  <i class="p">\</i><i class="r">%%%</i><i class="g">[=====]</i><i class="r">%%%</i><i class="p">/</i>
+   <i class="p">|</i><i class="r">%%%%</i><i class="s">|||</i><i class="r">%%%%</i><i class="p">|</i>
+  <i class="p">/</i><i class="r">%%%%%</i><i class="s">|||</i><i class="r">%%%%%</i><i class="p">\</i>
+ <i class="p">/</i><i class="r">%%%%</i><i class="g">[=====]</i><i class="r">%%%%</i><i class="p">\</i>
+<i class="p">|</i><i class="r">%%%%%%%</i><i class="s">|||</i><i class="r">%%%%%%%</i><i class="p">|</i>
+<i class="p">|</i><i class="r">%%</i><i class="w">o</i><i class="r">%%%%</i><i class="s">|||</i><i class="r">%%%%%%%</i><i class="p">|</i>
+<i class="p">|</i><i class="r">%%%</i><i class="w">o</i><i class="r">%</i><i class="g">[=====]</i><i class="r">%%%%%</i><i class="p">|</i>
+<i class="p">|</i><i class="r">%%%%</i><i class="w">o</i><i class="r">%%</i><i class="s">|||</i><i class="r">%%%%%%%</i><i class="p">|</i>
+ <i class="p">\</i><i class="r">%%%%</i><i class="w">o</i><i class="r">%</i><i class="g">[___]</i><i class="r">%%%%</i><i class="p">/</i>
+  <i class="p">\</i><i class="r">%%%%%%%%%%%%%</i><i class="p">/</i>
+   <i class="p">`-._______.-&#x27;</i></pre><span class="fx-note" aria-hidden="true">♪</span><span class="fx-note n2" aria-hidden="true">♫</span><span class="fx-note n3" aria-hidden="true">♪</span></div>
     </figure>
     <aside class="spec" aria-label="Profile summary">
       <span class="corner tl"></span><span class="corner br"></span>
@@ -319,7 +399,7 @@ footer { font: 400 12px/1.6 var(--mono); color: var(--muted); letter-spacing: 0.
         <dt>Degree</dt><dd>B.S. Computer Science</dd>
         <dt>Graduating</dt><dd>Fall 2028</dd>
         <dt>Role</dt><dd>Technical Director, UB SASE</dd>
-        <dt>Team</dt><dd>15 students mentored</dd>
+        <dt>Cohort</dt><dd>28 students mentored</dd>
       </dl>
     </aside>
     </div>
@@ -364,17 +444,17 @@ footer { font: 400 12px/1.6 var(--mono); color: var(--muted); letter-spacing: 0.
         <div class="entry-top">
           <div>
             <h3>Technical Director &amp; Software Engineer Intern</h3>
-            <span class="org">SASE · University at Buffalo</span>
+            <a class="org" href="https://www.ubsase.org/" target="_blank" rel="noopener">SASE · University at Buffalo ↗</a>
           </div>
           <span class="date active">Mar 2026 – Present</span>
         </div>
         <ul>
-          <li>Manage and mentor a team of 15 through hands-on technical projects and workshops, including Linux systems and full-stack development.</li>
-          <li>Lead end-to-end development and deployment of UB SASE's official website with React and CSS.</li>
+          <li>Manage and mentor a cohort of 28 as they build their own technical projects, and teach practical workshops on Linux systems and full-stack development.</li>
+          <li>Led end-to-end development and deployment of UB SASE's official website, building the leadership page, header, and page layout with React and Tailwind CSS.</li>
           <li>Host large technical events of 100+ people that connect the community and spark members' professional interests.</li>
         </ul>
         <div class="stat-strip">
-          <span><strong>15</strong>engineers led</span>
+          <span><strong>28</strong>students mentored</span>
           <span><strong>100+</strong>per event</span>
           <span><strong>1</strong>official site shipped</span>
         </div>
@@ -382,15 +462,15 @@ footer { font: 400 12px/1.6 var(--mono); color: var(--muted); letter-spacing: 0.
       <article class="panel entry">
         <div class="entry-top">
           <div>
-            <h3>Software Engineer Fellow &amp; Mentor</h3>
-            <span class="org">Forge Fellowship</span>
+            <h3>Software Engineer Fellow &amp; Studio</h3>
+            <a class="org" href="https://www.ubforge.com/" target="_blank" rel="noopener">Forge Fellowship ↗</a>
           </div>
           <span class="date active">Jan 2026 – Present</span>
         </div>
         <ul>
-          <li>Selected for a competitive CS fellowship focused on rapid product development and career readiness.</li>
-          <li>Solo-developed an MVP web application under Forge mentorship.</li>
-          <li>Mentor incoming fellowship cohorts to strengthen their engineering practices.</li>
+          <li>Selected for a competitive CS fellowship focused on software product development and career readiness.</li>
+          <li>Solo-developed an MVP mobile application under Forge mentorship.</li>
+          <li>Designing and building the front-end login page for new fellows, and back-end profiling with experienced mentors in the Studio program, for future Forge cohorts.</li>
         </ul>
       </article>
     </div>
@@ -412,15 +492,15 @@ footer { font: 400 12px/1.6 var(--mono); color: var(--muted); letter-spacing: 0.
         <ul class="tech"><li>React Native</li><li>Node.js</li><li>Firebase</li><li>Twilio</li><li>Maps API</li><li>Figma</li></ul>
       </article>
       <article class="panel entry">
-        <span class="badge" style="background:var(--fg)">Web · 2024 &amp; 2026</span>
-        <h3>SASE website &amp; philosophy blog</h3>
-        <span class="org">Front-end · UI/UX</span>
+        <span class="badge" style="background:var(--fg)">Full stack · 2024 &amp; 2026</span>
+        <h3>Philosophy &amp; literature blog</h3>
+        <a class="org" href="https://tobeybrainworms.com/" target="_blank" rel="noopener">tobeybrainworms.com ↗</a>
         <ul>
-          <li>Designed scalable front-end and UI/UX for high-traffic event announcements serving 100+ active members.</li>
-          <li>Streamlined deployment and optimized assets for faster loads and better mobile accessibility.</li>
-          <li>Built a personal blog for writing about philosophy books.</li>
+          <li>Built and launched creative front-end and UI/UX designs and themes across multiple pages.</li>
+          <li>Python and FastAPI backend with a REST API. New posts are Markdown files, server-rendered with caching.</li>
+          <li>Newsletter signups through the beehiiv API, with spam protection and a SQLite backup in case the database is lost.</li>
         </ul>
-        <ul class="tech"><li>React</li><li>JavaScript</li><li>HTML</li><li>CSS</li></ul>
+        <ul class="tech"><li>Python</li><li>FastAPI</li><li>REST API</li><li>SQLite</li><li>beehiiv</li><li>Markdown</li></ul>
       </article>
     </div>
   </section>
@@ -432,7 +512,7 @@ footer { font: 400 12px/1.6 var(--mono); color: var(--muted); letter-spacing: 0.
         <div class="medal-icon" aria-hidden="true">★</div>
         <div>
           <h3>Sportsmanship Award</h3>
-          <p><strong>NJCAA Men's Volleyball, 2025 season.</strong> Named to the All-Sportsmanship Team, and finished 2nd in the lower NYC region with my team.</p>
+          <p><strong>NJCAA Men's Volleyball, 2025 season.</strong> Named to the All-Sportsmanship Team, and finished a historic 2nd place in the lower NYC region with my team.</p>
         </div>
       </div>
       <div class="panel off">
@@ -442,6 +522,7 @@ footer { font: 400 12px/1.6 var(--mono); color: var(--muted); letter-spacing: 0.
           <li><span>Build</span>Gundam model kits</li>
           <li><span>Play</span>Volleyball</li>
           <li><span>Read</span>Philosophy &amp; sci-fi</li>
+          <li><span>Jam</span>Guitar</li>
         </ul>
       </div>
     </div>
@@ -457,6 +538,14 @@ footer { font: 400 12px/1.6 var(--mono); color: var(--muted); letter-spacing: 0.
       <div class="comm">
         <span class="lbl">Phone</span>
         <div class="row"><span class="val" id="v-phone">+1 (917) 349-8479</span><button class="copy" id="c-phone" data-target="v-phone" type="button">Copy</button></div>
+      </div>
+      <div class="comm">
+        <span class="lbl">Website</span>
+        <div class="row"><a class="val" href="https://tobes.tech" target="_blank" rel="noopener">tobes.tech</a></div>
+      </div>
+      <div class="comm">
+        <span class="lbl">Blog</span>
+        <div class="row"><a class="val" href="https://tobeybrainworms.com/" target="_blank" rel="noopener">tobeybrainworms.com</a></div>
       </div>
       <div class="comm">
         <span class="lbl">LinkedIn</span>
@@ -521,7 +610,7 @@ footer { font: 400 12px/1.6 var(--mono); color: var(--muted); letter-spacing: 0.
 
   // ASCII volleyball: shaded sphere with three-strip panel seams
   var pre = document.getElementById("ascii");
-  var COLS = 46, ROWS = 23, RAMP = " .:-=+*%#@";
+  var COLS = 40, ROWS = 20, RAMP = " .:-=+*%#@";
   var ang = 0.6;
   function ball(a) {
     var out = "";
